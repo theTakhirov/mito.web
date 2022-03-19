@@ -1,7 +1,8 @@
 import { useRef, useState } from "react";
-import { useSpring, a as three } from "@react-spring/three";
 import { useFrame } from "@react-three/fiber";
 import { MeshWobbleMaterial } from "@react-three/drei";
+import { motion } from 'framer-motion-3d';
+import { easeInOut } from "../libs/ease";
 
 type BoxProps = {
     args: [
@@ -20,11 +21,25 @@ type BoxProps = {
 
 const FloatingBox = ({ args, position, color, speed }: BoxProps) => {
     const [hovered, setHovered] = useState(false);
+    const [tapped, setTapped] = useState(false);
     const box = useRef(null);
 
-    const style: any = useSpring({
-        scale: hovered ? [1.3, 1.3, 1.5] : [1, 1, 1]
-    })
+    const transition = {
+        duration: 1.25,
+        ...easeInOut
+    }
+
+    const variants = {
+        pointerOut: {
+            scale: 1,
+        },
+        pointerEnter: {
+            scale: 1.25
+        },
+        tapEnter: {
+            scale: 1.5
+        }
+    }
 
     useFrame(() => {
         // @ts-ignore
@@ -32,22 +47,31 @@ const FloatingBox = ({ args, position, color, speed }: BoxProps) => {
     })
 
     return (
-        <three.mesh
+        <motion.mesh
             ref={box}
+            scale={0}
+            onTap={() => setTapped(!tapped)}
             onPointerEnter={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
-            scale={style.scale}
+            animate={
+                tapped
+                    ? 'tapEnter'
+                    : hovered
+                        ? 'pointerEnter'
+                        : 'pointerOut'
+            }
+            transition={transition}
+            variants={variants}
             position={position}
             castShadow
         >
-            <boxBufferGeometry attach='geometry' args={args} />
+            <boxBufferGeometry args={args} />
             <MeshWobbleMaterial
-                attach='material'
                 color={color}
                 speed={speed}
                 factor={.4}
             />
-        </three.mesh>
+        </motion.mesh>
     )
 }
 

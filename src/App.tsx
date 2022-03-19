@@ -1,9 +1,21 @@
 import './App.css';
-
 import ThreeCubeMain from "./components/ThreeCubes";
 import Header from "./components/Header";
 
 function App() {
+    const transition = {
+        duration: .75,
+        ease: 'easeInOut'
+    }
+    const variants = {
+        hidden: {
+            opacity: 0
+        },
+        visible: {
+            opacity: 1
+        }
+    }
+
     return (
         <>
             <Header />
