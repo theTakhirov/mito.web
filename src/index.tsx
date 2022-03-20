@@ -3,14 +3,15 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { AnimatePresence } from "framer-motion";
+import {AnimatePresence} from "framer-motion";
+import CursorProvider from "./components/CursorProvider";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <CursorProvider>
       <AnimatePresence initial={false}>
         <App />
       </AnimatePresence>
-  </React.StrictMode>,
+  </CursorProvider>,
   document.getElementById('root')
 );
 

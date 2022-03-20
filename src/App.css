@@ -2,47 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  @font-face {
+@font-face {
     font-family: 'Dank Mono';
     src: url("./fonts/dankmono.woff") format('woff');
-  }
+}
 
-  @font-face {
+@font-face {
     font-family: 'Dank Mono Italic';
     src: url("./fonts/dankmono-italic.woff") format('woff');
-  }
+}
 
-  html, body {
-    @apply font-sans;
-  }
+@layer base {
+    html, body {
+        @apply font-sans bg-white;
+    }
 
-  code, samp, pre {
-    @apply font-mono;
-  }
+    code, samp, pre {
+        @apply font-mono;
+    }
 }
 
 @layer components {
-  .header {
-    @apply fixed w-full top-0 left-0 py-2.5;
-  }
+    .header {
+        @apply fixed w-full top-0 left-0 py-2.5;
+    }
 
-  .header-white {
-    @apply bg-white text-dark;
-  }
+    .header-white {
+        @apply bg-white text-dark;
+    }
 
-  .header-backdrop {
-    @apply bg-white-600 filter backdrop-blur-md;
-  }
+    .header-backdrop {
+        @apply bg-white-600 filter backdrop-blur-md;
+    }
 
-  .header-navbar {
-    @apply flex items-center justify-between;
-  }
+    .header-navbar {
+        @apply flex items-center justify-between;
+    }
 }
 
 #main-three {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.cursor {
+    @apply fixed top-0 left-0 pointer-events-none bg-white rounded-full mix-blend-difference hidden md:block;
+    z-index: 999;
+}
+
+*, *:hover {
+    @apply cursor-none;
 }
