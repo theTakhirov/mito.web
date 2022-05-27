@@ -1,0 +1,8 @@
+{
+    "tabWidth": 4,
+    "endOfLine": "lf",
+    "printWidth": 80,
+    "semi": true,
+    "jsxSingleQuote": false,
+    "singleQuote": false
+}
