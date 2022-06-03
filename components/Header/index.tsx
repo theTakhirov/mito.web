@@ -13,10 +13,13 @@ const ContactButton = () => {
     const hoverBackground = useColorModeValue("white.600", "dark.300");
     const fill = useColorModeValue("#252525", "#F8FAF7");
 
+    const click = () => alert("Coming soon!");
+
     return (
         <Box>
             <Button
                 p={1}
+                onClick={click}
                 background="transparent"
                 _hover={{ background: hoverBackground }}
                 _active={{ background: hoverBackground }}
@@ -32,7 +35,7 @@ const Header = () => {
 
     return (
         <Box
-            my={16}
+            my={{ base: 8, md: 16 }}
             as="header"
             bg={background}
             position="sticky"

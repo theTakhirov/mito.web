@@ -20,7 +20,7 @@ const Home: NextPage = () => {
 
     return (
         <Layout title="Home">
-            <Heading fontSize={40} maxWidth="910px">
+            <Heading fontSize={{ base: 30, md: 40 }} maxWidth="910px">
                 Muhammaddiyor Tohirov
             </Heading>
 
@@ -29,7 +29,7 @@ const Home: NextPage = () => {
                 things
             </Text>
 
-            <Text maxW={{ md: "75%", sm: "100%" }} fontSize={16}>
+            <Text maxW={{ base: "100%", md: "75%" }} fontSize={16}>
                 I&apos;m interested in learning new things and solving existing
                 problems more easily through programming languages. I have been
                 working in the field of programming since 2020. I am always
