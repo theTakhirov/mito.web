@@ -1,14 +1,8 @@
 import React from "react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { ChakraProps, Link as ChakraLink } from "@chakra-ui/react";
-
-type LinkProps = {
-    href: string;
-    external?: boolean;
-    target?: "_blank" | "_self" | "_parent" | "_top" | string;
-    children: React.ReactNode;
-} & ChakraProps;
+import { Link as ChakraLink } from "@chakra-ui/react";
+import { LinkProps } from "@components/Link/types";
 
 const Link = ({
     href,

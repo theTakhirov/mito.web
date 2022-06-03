@@ -1,9 +1,9 @@
-import { color, ThemeComponents } from "@chakra-ui/react";
+import { ThemeComponents } from "@chakra-ui/react";
 
 const components: ThemeComponents = {
     Container: {
         baseStyle: {
-            maxWidth: "1132px",
+            maxWidth: "720px",
             cursor: "none",
         },
     },
@@ -19,6 +19,9 @@ const components: ThemeComponents = {
             handwrite: {
                 fontFamily: "handWriting",
             },
+            mono: {
+                fontFamily: "mono",
+            },
         },
     },
 
@@ -32,19 +35,19 @@ const components: ThemeComponents = {
             handwrite: {
                 fontFamily: "handWriting",
             },
+            mono: {
+                fontFamily: "mono",
+            },
         },
     },
 
     Button: {
         baseStyle: (props) => {
             return {
-                borderWidth: 1,
-                borderRadius: 0,
+                borderRadius: "4px",
                 fontWeight: "normal",
                 lineHeight: "inherit",
                 color: props.colorMode === "dark" ? "white.400" : "dark.400",
-                borderColor:
-                    props.colorMode === "dark" ? "white.400" : "dark.400",
 
                 _focus: {
                     shadow: "none",

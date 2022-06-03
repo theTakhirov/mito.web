@@ -1,22 +1,11 @@
 import React from "react";
+import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
-import { Box, ColorMode, Container, useColorMode } from "@chakra-ui/react";
+import { LayoutProps } from "@components/Layouts/Main/types";
 import Header from "@components/Header";
-import Footer from "@components/Footer";
 
-export interface MetaType {
-    name: string;
-    content: string;
-}
-
-type LayoutProps = {
-    title?: string | false;
-    meta?: MetaType[] | null;
-    children: React.ReactNode;
-};
-
-const useFavicon = (colorMode: ColorMode) => {
-    const path = `/ico-${colorMode}/`;
+const useFavicon = () => {
+    const path = `/ico/`;
 
     const favicon = path + "favicon.ico";
     const faviconX32 = path + "favicon-32x32.png";
@@ -34,15 +23,14 @@ const useFavicon = (colorMode: ColorMode) => {
 };
 
 const MainLayout = ({ title = false, meta = null, children }: LayoutProps) => {
-    const { colorMode } = useColorMode();
-    const favicon = useFavicon(colorMode);
+    const favicon = useFavicon();
     const displayTitle = title ? `${title} | Mitogen.uz` : "Mitogen.uz";
     const metaKeys = meta?.map((data, index) => (
         <meta key={index} name={data.name} content={data.content} />
     ));
 
     return (
-        <Box minH="100vh">
+        <Box>
             <Head>
                 <title>{displayTitle}</title>
                 {metaKeys}
@@ -52,8 +40,6 @@ const MainLayout = ({ title = false, meta = null, children }: LayoutProps) => {
             <Header />
 
             <Container>{children}</Container>
-
-            <Footer />
         </Box>
     );
 };

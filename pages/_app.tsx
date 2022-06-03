@@ -1,11 +1,11 @@
-import { ChakraProvider } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
+import { ChakraProvider } from "@chakra-ui/react";
 import CursorProvider from "@components/Cursor";
 import theme from "@theme/index";
 import nProgress from "nprogress";
 import Router from "next/router";
-import "~/fonts/index.css";
-import "nprogress/nprogress.css";
+import "@styles/nprogress.css";
+import "@styles/fonts.css";
 
 const progressStart = () => {
     nProgress.start();
