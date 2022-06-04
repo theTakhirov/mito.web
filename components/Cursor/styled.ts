@@ -17,7 +17,7 @@ const Cursor = styled.div`
     mix-blend-mode: difference;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    z-index: 9999;
+    z-index: 100000;
 
     .inner {
         background: var(--colored);

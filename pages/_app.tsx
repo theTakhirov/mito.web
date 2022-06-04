@@ -1,11 +1,13 @@
 import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
+import CommandProvider from "@components/Command";
 import CursorProvider from "@components/Cursor";
 import theme from "@theme/index";
 import nProgress from "nprogress";
 import Router from "next/router";
 import "@styles/nprogress.css";
 import "@styles/fonts.css";
+import { AnimatePresence } from "framer-motion";
 
 const progressStart = () => {
     nProgress.start();
@@ -27,9 +29,13 @@ Router.events.on("routeChangeError", progressFailed);
 function App({ Component, pageProps }: AppProps) {
     return (
         <ChakraProvider theme={theme}>
-            <CursorProvider>
-                <Component {...pageProps} />
-            </CursorProvider>
+            <AnimatePresence initial={true}>
+                <CommandProvider>
+                    <CursorProvider>
+                        <Component {...pageProps} />
+                    </CursorProvider>
+                </CommandProvider>
+            </AnimatePresence>
         </ChakraProvider>
     );
 }

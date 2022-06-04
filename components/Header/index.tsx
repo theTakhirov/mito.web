@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     Box,
     Button,
@@ -6,14 +6,18 @@ import {
     HStack,
     useColorModeValue,
 } from "@chakra-ui/react";
+import { useCommand } from "@components/Command/index";
 import Logo from "@components/Logo";
 import CommandIcon from "~/icons/command";
+import Command from "../Command/context";
 
 const ContactButton = () => {
     const hoverBackground = useColorModeValue("white.600", "dark.300");
     const fill = useColorModeValue("#252525", "#F8FAF7");
 
-    const click = () => alert("Coming soon!");
+    const click = () => {
+        return;
+    };
 
     return (
         <Box>

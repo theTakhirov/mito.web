@@ -1,23 +1,8 @@
 import type { NextPage } from "next";
-import { useEffect, useMemo } from "react";
-import { Heading, Text } from "@chakra-ui/react";
+import { Heading, Kbd, Text } from "@chakra-ui/react";
 import Layout from "@components/Layouts/Main";
-import tinykeys from "tinykeys";
 
 const Home: NextPage = () => {
-    const keymap = useMemo(() => {
-        return {
-            "$mod+k": (event?: KeyboardEvent) => {
-                event?.preventDefault();
-                alert("Coming soon");
-            },
-        };
-    }, []);
-
-    useEffect(() => {
-        tinykeys(window, keymap);
-    });
-
     return (
         <Layout title="Home">
             <Heading fontSize={{ base: 30, md: 40 }} maxWidth="910px">
@@ -37,7 +22,8 @@ const Home: NextPage = () => {
             </Text>
 
             <Text textAlign="center" mt={9}>
-                press ⌘+K on keyboard or <br /> ⌘ button on navigation menu.
+                press <Kbd py={1}>⌘</Kbd>+<Kbd py={1}>K</Kbd> on keyboard or
+                <br /> ⌘ button on navigation menu.
             </Text>
         </Layout>
     );
