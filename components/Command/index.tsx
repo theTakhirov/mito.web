@@ -1,8 +1,11 @@
 import React, {
-    createContext,
+    InputHTMLAttributes,
+    LegacyRef,
     memo,
+    MouseEvent,
     useEffect,
     useMemo,
+    useRef,
     useState,
 } from "react";
 import {
@@ -22,7 +25,6 @@ import {
 } from "@components/Command/transition";
 import {
     CommandContainerProps,
-    CommandContext as CommandContextType,
     CommandInputProps,
     CommandLabelProps,
     CommandListProps,
@@ -30,18 +32,30 @@ import {
     KeymapProps,
     statusProps,
 } from "@components/Command/types";
+import CommandContext from "@components/Command/context";
 import { motion, Variants } from "framer-motion";
 import tinykeys from "tinykeys";
-
-const CommandContext = createContext<CommandContextType | null>(null);
+import { useCommand } from "~/hooks/useCommand";
 
 const CommandProvider = memo<CommandProps>(({ children }) => {
     const [status, setStatus] = useState<statusProps>("close");
+    const [focused, setFocused] = useState<boolean>(false);
 
     const keymap = useMemo<KeymapProps>(() => {
         return {
             "$mod+k": (event) => {
                 event?.preventDefault();
+                setStatus("open");
+            },
+            "$mod+/": (event) => {
+                event?.preventDefault();
+                setStatus("open");
+                setFocused(true);
+            },
+            Escape: (event) => {
+                event?.preventDefault();
+                setStatus("close");
+                setFocused(false);
             },
         };
     }, []);
@@ -51,7 +65,9 @@ const CommandProvider = memo<CommandProps>(({ children }) => {
     }, [keymap]);
 
     return (
-        <CommandContext.Provider value={{ keymap, status, setStatus }}>
+        <CommandContext.Provider
+            value={{ keymap, status, focused, setStatus, setFocused }}
+        >
             {children}
             <CommandContainer status={status}>
                 <CommandInput />
@@ -65,13 +81,21 @@ const CommandProvider = memo<CommandProps>(({ children }) => {
 });
 
 const CommandContainer = ({ status, children }: CommandContainerProps) => {
-    const overlay = useColorModeValue("#C6C8C64d", "#2525254d");
+    const overlayOpen = useColorModeValue("#C6C8C64d", "#2525254d");
+    const overlayClose = useColorModeValue("#C6C8C600", "#25252500");
     const background = useColorModeValue("#F8FAF7e6", "#252525e6");
+
+    const { setStatus } = useCommand();
+    const closeOverlay = (event?: MouseEvent) => {
+        if (event?.target === event?.currentTarget) {
+            setStatus?.("close");
+        }
+    };
 
     const overlayVariants: Variants = {
         open: {
             opacity: 1,
-            background: overlay,
+            background: overlayOpen,
             backdropFilter: "blur(6px)",
             transition: overlayTransition,
             transitionEnd: {
@@ -80,7 +104,7 @@ const CommandContainer = ({ status, children }: CommandContainerProps) => {
         },
         close: {
             opacity: 0,
-            background: "transparent",
+            background: overlayClose,
             backdropFilter: "blur(0px)",
             transition: overlayTransition,
             transitionEnd: {
@@ -103,12 +127,14 @@ const CommandContainer = ({ status, children }: CommandContainerProps) => {
     return (
         <Center
             as={motion.div}
+            onClick={closeOverlay}
             initial="close"
             animate={status}
             variants={overlayVariants}
-            background={overlay}
+            background={overlayClose}
             position="fixed"
             zIndex={9999}
+            padding={0}
             top={0}
             bottom={0}
             left={0}
@@ -129,6 +155,7 @@ const CommandContainer = ({ status, children }: CommandContainerProps) => {
                     overflowY="auto"
                     overflowX="hidden"
                     transition="height 0.3s ease-in-out"
+                    willChange="height"
                 >
                     {children}
                 </Box>
@@ -138,6 +165,13 @@ const CommandContainer = ({ status, children }: CommandContainerProps) => {
 };
 
 const CommandInput = ({ placeholder = "Search" }: CommandInputProps) => {
+    const input = useRef<HTMLInputElement>(null);
+    const { focused } = useCommand();
+
+    useEffect(() => {
+        if (focused) input.current?.focus();
+    }, [focused]);
+
     return (
         <FormLabel
             width="100%"
@@ -146,6 +180,7 @@ const CommandInput = ({ placeholder = "Search" }: CommandInputProps) => {
             _focusWithin={{ outline: "none" }}
         >
             <Input
+                ref={input}
                 placeholder={placeholder}
                 fontFamily="TT Firs"
                 fontWeight="light"

@@ -10,14 +10,16 @@ export type KeymapProps = {
     [keymap: string]: (event?: KeyboardEvent) => void;
 };
 
-export type CommandContext = {
-    keymap: KeymapProps;
-    status: statusProps;
-    setStatus: Dispatch<SetStateAction<statusProps>>;
-} | null;
+export interface CommandContext {
+    keymap?: KeymapProps;
+    status?: statusProps;
+    focused?: boolean;
+    setStatus?: Dispatch<SetStateAction<statusProps>>;
+    setFocused?: Dispatch<SetStateAction<boolean>>;
+}
 
 export type CommandContainerProps = {
-    status: "open" | "close";
+    status: statusProps;
     children: React.ReactNode;
 };
 

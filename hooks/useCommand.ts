@@ -3,5 +3,7 @@ import { CommandContext } from "@components/Command/types";
 import Command from "@components/Command/context";
 
 export const useCommand = () => {
-    return useContext<CommandContext>(Command);
+    const context = useContext<CommandContext>(Command);
+
+    return context;
 };
