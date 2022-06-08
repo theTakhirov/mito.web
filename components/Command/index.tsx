@@ -59,7 +59,7 @@ const CommandPositioner = ({ children }: withChildren) => {
         <ChakraPositioner
             zIndex={9999}
             background={overlayTo}
-            padding="0 !important"
+            padding="0 20px !important"
             backdropFilter="blur(2.5px)"
             alignItems="center !important"
             animation={`${keyframe} .22s ease`}
