@@ -1,227 +1,240 @@
-import React, {
-    InputHTMLAttributes,
-    LegacyRef,
-    memo,
-    MouseEvent,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import React from "react";
 import {
-    Box,
-    Center,
-    Container,
-    FormLabel,
-    Input,
-    List,
-    Text,
-    useColorModeValue,
-    VStack,
-} from "@chakra-ui/react";
+    KBarProvider,
+    KBarResults,
+    KBarPortal,
+    useMatches,
+    ActionImpl,
+    ActionId,
+} from "kbar";
 import {
-    commandTransition,
-    overlayTransition,
-} from "@components/Command/transition";
+    ChakraPositioner,
+    ChakraAnimator,
+    ChakraSearch,
+} from "@components/Command/styled";
+import { keyframes, useColorModeValue } from "@chakra-ui/system";
+import { Box, Kbd, Text } from "@chakra-ui/layout";
 import {
-    CommandContainerProps,
-    CommandInputProps,
-    CommandLabelProps,
-    CommandListProps,
-    CommandProps,
-    KeymapProps,
-    statusProps,
+    ResultItemProps,
+    withChildren,
+    withItem,
 } from "@components/Command/types";
-import CommandContext from "@components/Command/context";
-import { motion, Variants } from "framer-motion";
-import tinykeys from "tinykeys";
-import { useCommand } from "~/hooks/useCommand";
+import RegisterMenu from "@components/Command/register";
 
-const CommandProvider = memo<CommandProps>(({ children }) => {
-    const [status, setStatus] = useState<statusProps>("close");
-    const [focused, setFocused] = useState<boolean>(false);
+const CommandProvider = ({ children }: withChildren) => {
+    return (
+        <KBarProvider>
+            <RegisterMenu />
 
-    const keymap = useMemo<KeymapProps>(() => {
-        return {
-            "$mod+k": (event) => {
-                event?.preventDefault();
-                setStatus("open");
-            },
-            "$mod+/": (event) => {
-                event?.preventDefault();
-                setStatus("open");
-                setFocused(true);
-            },
-            Escape: (event) => {
-                event?.preventDefault();
-                setStatus("close");
-                setFocused(false);
-            },
-        };
-    }, []);
+            <KBarPortal>
+                <CommandPositioner>
+                    <CommandAnimator>
+                        <CommandSearch />
 
-    useEffect(() => {
-        tinykeys(window, keymap);
-    }, [keymap]);
+                        <RenderResult />
+                    </CommandAnimator>
+                </CommandPositioner>
+            </KBarPortal>
+
+            {children}
+        </KBarProvider>
+    );
+};
+
+const CommandPositioner = ({ children }: withChildren) => {
+    const overlayFrom = useColorModeValue("#c6c8c600", "#25252500");
+    const overlayTo = useColorModeValue("#c6c8c64d", "#2525254d");
+    const keyframe = keyframes`
+        from {
+            background: ${overlayFrom};
+            backdrop-filter: blur(0px);
+        }
+        to {
+            background: ${overlayTo};
+            backdrop-filter: blur(2.5px);
+        }
+    `;
 
     return (
-        <CommandContext.Provider
-            value={{ keymap, status, focused, setStatus, setFocused }}
+        <ChakraPositioner
+            zIndex={9999}
+            background={overlayTo}
+            padding="0 !important"
+            backdropFilter="blur(2.5px)"
+            alignItems="center !important"
+            animation={`${keyframe} .22s ease`}
         >
             {children}
-            <CommandContainer status={status}>
-                <CommandInput />
-
-                <CommandList label="Home">
-                    <CommandItem />
-                </CommandList>
-            </CommandContainer>
-        </CommandContext.Provider>
+        </ChakraPositioner>
     );
-});
+};
 
-const CommandContainer = ({ status, children }: CommandContainerProps) => {
-    const overlayOpen = useColorModeValue("#C6C8C64d", "#2525254d");
-    const overlayClose = useColorModeValue("#C6C8C600", "#25252500");
-    const background = useColorModeValue("#F8FAF7e6", "#252525e6");
-
-    const { setStatus } = useCommand();
-    const closeOverlay = (event?: MouseEvent) => {
-        if (event?.target === event?.currentTarget) {
-            setStatus?.("close");
-        }
-    };
-
-    const overlayVariants: Variants = {
-        open: {
-            opacity: 1,
-            background: overlayOpen,
-            backdropFilter: "blur(6px)",
-            transition: overlayTransition,
-            transitionEnd: {
-                visibility: "visible",
-            },
-        },
-        close: {
-            opacity: 0,
-            background: overlayClose,
-            backdropFilter: "blur(0px)",
-            transition: overlayTransition,
-            transitionEnd: {
-                visibility: "hidden",
-            },
-        },
-    };
-
-    const commandVariants: Variants = {
-        open: {
-            scale: 1,
-            transition: commandTransition,
-        },
-        close: {
-            scale: 0.85,
-            transition: commandTransition,
-        },
-    };
+const CommandAnimator = ({ children }: withChildren) => {
+    const color = useColorModeValue("dark.900", "white.400");
+    const background = useColorModeValue("#f8faf7", "#252525");
 
     return (
-        <Center
-            as={motion.div}
-            onClick={closeOverlay}
-            initial="close"
-            animate={status}
-            variants={overlayVariants}
-            background={overlayClose}
-            position="fixed"
-            zIndex={9999}
-            padding={0}
-            top={0}
-            bottom={0}
-            left={0}
-            right={0}
+        <ChakraAnimator
+            background={background}
+            backdropFilter="blur(6px)"
+            maxWidth="520px"
+            width="full"
+            outline="none"
+            borderWidth={2}
+            borderColor={color}
+            borderRadius="8px"
+            overflowY="hidden"
+            boxSizing="content-box"
         >
-            <Container maxWidth="520px">
-                <Box
-                    as={motion.div}
-                    initial="close"
-                    animate={status}
-                    variants={commandVariants}
-                    borderWidth={2}
-                    borderColor="white.400"
-                    borderRadius={8}
-                    background={background}
-                    maxH={480}
-                    pb={1.5}
-                    overflowY="auto"
-                    overflowX="hidden"
-                    transition="height 0.3s ease-in-out"
-                    willChange="height"
-                >
-                    {children}
+            {children}
+        </ChakraAnimator>
+    );
+};
+
+const CommandSearch = () => {
+    const color = useColorModeValue("dark.600", "#F8FAF74d");
+
+    return (
+        <ChakraSearch
+            defaultPlaceholder="Search..."
+            background="transparent"
+            width="full"
+            paddingX={4}
+            paddingY={3}
+            borderBottomWidth={1}
+            borderBottomColor={color}
+            _focus={{
+                outline: "none",
+                shadow: "none",
+            }}
+            _focusWithin={{
+                outline: "none",
+                shadow: "none",
+            }}
+        />
+    );
+};
+
+const RenderResult = () => {
+    const { results, rootActionId } = useMatches();
+
+    return (
+        <KBarResults
+            items={results}
+            maxHeight={350}
+            onRender={({ item, active }) =>
+                typeof item === "string" ? (
+                    <ResultLabel item={item} />
+                ) : (
+                    <ResultItem
+                        item={item}
+                        active={active}
+                        currentRootActionId={rootActionId as ActionId}
+                    />
+                )
+            }
+        />
+    );
+};
+
+const ResultLabel = React.forwardRef(
+    ({ item }: withItem, ref: React.Ref<HTMLDivElement>) => {
+        const background = useColorModeValue("white.600", "dark.300");
+        const opacity = useColorModeValue("0.65", "0.5");
+
+        return (
+            <Box
+                ref={ref}
+                display="inline-block"
+                width="full"
+                background={background}
+                opacity={opacity}
+                paddingX={4}
+                paddingY={1}
+                fontSize={10}
+                textTransform="uppercase"
+            >
+                {item}
+            </Box>
+        );
+    }
+);
+
+const ResultItem = React.forwardRef(
+    (
+        { item, active, currentRootActionId }: ResultItemProps,
+        ref: React.Ref<HTMLDivElement>
+    ) => {
+        const background = useColorModeValue("#DFE1DE", "#303030");
+        const ancestors = React.useMemo(() => {
+            if (!currentRootActionId) return item.ancestors;
+
+            const index = item.ancestors.findIndex(
+                (ancestor) => ancestor.id === currentRootActionId
+            );
+
+            return item.ancestors.slice(index + 1);
+        }, [item.ancestors, currentRootActionId]);
+
+        return (
+            <Box
+                ref={ref}
+                width="full"
+                paddingX={4}
+                paddingY={3}
+                background={active ? background : "transparent"}
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+            >
+                <Box display="flex" gap={8} alignItems="center" fontSize={14}>
+                    {item.icon && item.icon}
+                    <Box display="flex" flexDirection="column">
+                        <Box>
+                            {ancestors.length > 0 &&
+                                ancestors.map((ancestor) => (
+                                    <React.Fragment key={ancestor.id}>
+                                        <Box opacity={0.5} marginRight="8px">
+                                            {ancestor.name}
+                                        </Box>
+                                        <Box marginRight="8px">&rsaquo;</Box>
+                                    </React.Fragment>
+                                ))}
+                            <Text>{item.name}</Text>
+                        </Box>
+                        {item.subtitle && (
+                            <Text fontSize={12} opacity={0.75}>
+                                {item.subtitle}
+                            </Text>
+                        )}
+                    </Box>
                 </Box>
-            </Container>
-        </Center>
-    );
-};
+                {item.shortcut?.length ? (
+                    <Box
+                        aria-hidden
+                        display="grid"
+                        gridAutoFlow="column"
+                        gap="5px"
+                    >
+                        {item.shortcut.map((key) => (
+                            <Kbd
+                                key={key}
+                                verticalAlign="middle"
+                                fontSize={12}
+                                paddingX={2}
+                                paddingY={1}
+                            >
+                                {key}
+                            </Kbd>
+                        ))}
+                    </Box>
+                ) : null}
+            </Box>
+        );
+    }
+);
 
-const CommandInput = ({ placeholder = "Search" }: CommandInputProps) => {
-    const input = useRef<HTMLInputElement>(null);
-    const { focused } = useCommand();
-
-    useEffect(() => {
-        if (focused) input.current?.focus();
-    }, [focused]);
-
-    return (
-        <FormLabel
-            width="100%"
-            height="100%"
-            marginBottom={0}
-            _focusWithin={{ outline: "none" }}
-        >
-            <Input
-                ref={input}
-                placeholder={placeholder}
-                fontFamily="TT Firs"
-                fontWeight="light"
-                borderWidth={0}
-                borderBottomWidth={1}
-                borderRadius={0}
-                _active={{ shadow: "none" }}
-                _hover={{ shadow: "none" }}
-                _focus={{ shadow: "none" }}
-            />
-        </FormLabel>
-    );
-};
-
-const CommandList = ({ label = null, children }: CommandListProps) => {
-    return (
-        <VStack alignItems="flex-start">
-            <List width="100%">
-                {label === null || <CommandLabel>{label}</CommandLabel>}
-                {children}
-            </List>
-        </VStack>
-    );
-};
-
-const CommandItem = () => {
-    return <></>;
-};
-
-const CommandLabel = ({ children }: CommandLabelProps) => {
-    const background = useColorModeValue("white.600", "dark.300");
-
-    return (
-        <Box px={4} py={1} background={background}>
-            <Text fontSize={12} fontWeight="light">
-                {children}
-            </Text>
-        </Box>
-    );
-};
-
-CommandProvider.displayName = "CommandProvider";
+ResultItem.displayName = "ResultItem";
+ResultLabel.displayName = "ResultLabel";
 
 export default CommandProvider;
