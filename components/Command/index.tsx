@@ -4,7 +4,6 @@ import {
     KBarResults,
     KBarPortal,
     useMatches,
-    ActionImpl,
     ActionId,
 } from "kbar";
 import {
@@ -12,13 +11,13 @@ import {
     ChakraAnimator,
     ChakraSearch,
 } from "@components/Command/styled";
-import { keyframes, useColorModeValue } from "@chakra-ui/system";
-import { Box, Kbd, Text } from "@chakra-ui/layout";
 import {
     ResultItemProps,
     withChildren,
     withItem,
 } from "@components/Command/types";
+import { keyframes, useColorModeValue } from "@chakra-ui/system";
+import { Box, Kbd, Text } from "@chakra-ui/layout";
 import RegisterMenu from "@components/Command/register";
 
 const CommandProvider = ({ children }: withChildren) => {
@@ -103,14 +102,8 @@ const CommandSearch = () => {
             paddingY={3}
             borderBottomWidth={1}
             borderBottomColor={color}
-            _focus={{
-                outline: "none",
-                shadow: "none",
-            }}
-            _focusWithin={{
-                outline: "none",
-                shadow: "none",
-            }}
+            _focus={{ outline: "none", shadow: "none" }}
+            _focusWithin={{ outline: "none", shadow: "none" }}
         />
     );
 };
@@ -189,8 +182,8 @@ const ResultItem = React.forwardRef(
             >
                 <Box display="flex" gap={8} alignItems="center" fontSize={14}>
                     {item.icon && item.icon}
-                    <Box display="flex" flexDirection="column">
-                        <Box>
+                    <Box display="flex" flexDirection="row">
+                        <Box display="flex" flexDirection="row">
                             {ancestors.length > 0 &&
                                 ancestors.map((ancestor) => (
                                     <React.Fragment key={ancestor.id}>
