@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Center, Portal, useColorModeValue } from "@chakra-ui/react";
+import { isMobile } from "react-device-detect";
 import gsap from "gsap";
 
 const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -56,7 +57,7 @@ const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     return (
         <React.Fragment>
-            {loaded || (
+            {(loaded && isMobile === false) || (
                 <Portal>
                     <Center
                         pos="fixed"
