@@ -8,6 +8,7 @@ import nProgress from "nprogress";
 import Router from "next/router";
 import "@styles/nprogress.css";
 import "@styles/fonts.css";
+import Preloader from "~/components/Preloader";
 
 const progressStart = () => {
     nProgress.start();
@@ -29,13 +30,15 @@ Router.events.on("routeChangeError", progressFailed);
 const App = ({ Component, pageProps }: AppProps) => {
     return (
         <ChakraProvider theme={theme} resetCSS>
-            <AnimatePresence initial={true}>
-                <CommandProvider>
-                    <CursorProvider>
-                        <Component {...pageProps} />
-                    </CursorProvider>
-                </CommandProvider>
-            </AnimatePresence>
+            <Preloader>
+                <AnimatePresence initial={true}>
+                    <CommandProvider>
+                        <CursorProvider>
+                            <Component {...pageProps} />
+                        </CursorProvider>
+                    </CommandProvider>
+                </AnimatePresence>
+            </Preloader>
         </ChakraProvider>
     );
 };
