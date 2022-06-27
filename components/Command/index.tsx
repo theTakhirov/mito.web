@@ -46,11 +46,9 @@ const CommandPositioner = ({ children }: withChildren) => {
     const keyframe = keyframes`
         from {
             background: ${overlayFrom};
-            backdrop-filter: blur(0px);
         }
         to {
             background: ${overlayTo};
-            backdrop-filter: blur(2.5px);
         }
     `;
 
@@ -59,7 +57,6 @@ const CommandPositioner = ({ children }: withChildren) => {
             zIndex={9999}
             background={overlayTo}
             padding="0 20px !important"
-            backdropFilter="blur(2.5px)"
             alignItems="center !important"
             animation={`${keyframe} .22s ease`}
         >
@@ -75,7 +72,6 @@ const CommandAnimator = ({ children }: withChildren) => {
     return (
         <ChakraAnimator
             background={background}
-            backdropFilter="blur(6px)"
             maxWidth="520px"
             width="full"
             outline="none"
@@ -138,7 +134,7 @@ const ResultLabel = React.forwardRef(
         return (
             <Box
                 ref={ref}
-                display="inline-block"
+                display="block"
                 width="full"
                 background={background}
                 opacity={opacity}
@@ -180,7 +176,7 @@ const ResultItem = React.forwardRef(
                 alignItems="center"
                 justifyContent="space-between"
             >
-                <Box display="flex" gap={8} alignItems="center" fontSize={14}>
+                <Box display="flex" gap={2} alignItems="center" fontSize={14}>
                     {item.icon && item.icon}
                     <Box display="flex" flexDirection="row">
                         <Box display="flex" flexDirection="row">

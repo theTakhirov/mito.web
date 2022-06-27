@@ -1,7 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-    reactStrictMode: true,
+/**
+ * Next.js configuration file
+ *
+ * @type {import('next').NextConfig}
+ */
+const config = {
+    reactStrictMode: false,
     optimizeFonts: true,
 };
 
-module.exports = nextConfig;
+module.exports = config;
