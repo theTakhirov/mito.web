@@ -15,8 +15,8 @@ const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const line = useColorModeValue("dark.400", "white.400");
 
     useEffect(() => {
-        if (isMobile === false) return;
-        
+        if (isMobile) return;
+
         const fnLoaded = () => {
             setProgress(100);
 
@@ -45,8 +45,8 @@ const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (isMobile === false) return;
-        
+        if (isMobile) return;
+
         const runProgress = () => {
             const min = Math.ceil(1);
             const max = Math.floor(15);
@@ -61,8 +61,8 @@ const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     return (
         <React.Fragment>
-            {isMobile === false && (
-                loaded || (
+            {isMobile === false &&
+                (loaded || (
                     <Portal>
                         <Center
                             pos="fixed"
@@ -121,8 +121,7 @@ const Preloader: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             />
                         </Center>
                     </Portal>
-                )
-            )}
+                ))}
 
             {children}
         </React.Fragment>
