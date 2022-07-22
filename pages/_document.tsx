@@ -1,16 +1,16 @@
 import React from "react";
 import NextDocument, {
-    Html,
-    Head,
-    Main,
-    NextScript,
     DocumentContext,
     DocumentInitialProps,
+    Head,
+    Html,
+    Main,
+    NextScript
 } from "next/document";
-import { ColorModeScript } from "@chakra-ui/react";
-import theme from "@theme/index";
 
 class Document extends NextDocument {
+    static state: object;
+
     static getInitialProps(
         ctx: DocumentContext
     ): Promise<DocumentInitialProps> {
@@ -19,23 +19,22 @@ class Document extends NextDocument {
         ctx.renderPage = () => {
             return originalRendererPage({
                 enhanceApp: (App) => App,
-                enhanceComponent: (Component) => Component,
+                enhanceComponent: (Component) => Component
             });
         };
 
-        const initialProps = NextDocument.getInitialProps(ctx);
+        this.state = {
+            preloader: false
+        };
 
-        return initialProps;
+        return NextDocument.getInitialProps(ctx);
     }
 
     render(): React.ReactElement {
         return (
-            <Html>
+            <Html lang="uz">
                 <Head />
                 <body>
-                    <ColorModeScript
-                        initialColorMode={theme.config.initialColorMode}
-                    />
                     <Main />
                     <NextScript />
                 </body>

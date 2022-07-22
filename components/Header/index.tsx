@@ -4,7 +4,7 @@ import {
     Button,
     Container,
     HStack,
-    useColorModeValue,
+    useColorModeValue
 } from "@chakra-ui/react";
 import Logo from "@components/Logo";
 import CommandIcon from "~/icons/command";

@@ -1,7 +1,7 @@
 import {
     useContactMenu,
     useNavigationMenu,
-    useThemeActions,
+    useThemeActions
 } from "@components/Command/commands";
 
 const RegisterMenu = () => {

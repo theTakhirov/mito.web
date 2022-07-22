@@ -30,17 +30,27 @@ Router.events.on("routeChangeError", progressFailed);
 const App = ({ Component, pageProps }: AppProps) => {
     return (
         <ChakraProvider theme={theme} resetCSS>
-            <Preloader>
-                <AnimatePresence initial={true}>
+            <AnimatePresence initial={true}>
+                <Preloader>
                     <CommandProvider>
                         <CursorProvider>
                             <Component {...pageProps} />
                         </CursorProvider>
                     </CommandProvider>
-                </AnimatePresence>
-            </Preloader>
+                </Preloader>
+            </AnimatePresence>
         </ChakraProvider>
     );
+};
+
+export const getStaticProps = async () => {
+    const res = await fetch(`https://jsonplaceholder.typicode.com/users`);
+    const data = await res.json();
+
+    console.log(data);
+
+    // Pass data to the page via props
+    return { props: { data } };
 };
 
 export default App;

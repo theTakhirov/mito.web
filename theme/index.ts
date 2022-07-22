@@ -8,7 +8,7 @@ const config: ThemeConfig = {
     cssVarPrefix: "mito",
     initialColorMode: "dark",
     useSystemColorMode: true,
-    disableTransitionOnChange: false,
+    disableTransitionOnChange: false
 };
 
 export default extendTheme({
@@ -16,5 +16,5 @@ export default extendTheme({
     colors,
     styles,
     components,
-    fonts,
+    fonts
 }) as ChakraTheme;

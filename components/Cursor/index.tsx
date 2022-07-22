@@ -3,7 +3,7 @@ import { isMobile as _isMobile } from "react-device-detect";
 import {
     CursorType,
     PositionProps,
-    ProviderProps,
+    ProviderProps
 } from "@components/Cursor/types";
 import Cursor from "@components/Cursor/styled";
 import gsap from "gsap";
@@ -25,7 +25,7 @@ const CursorProvider = ({ children }: ProviderProps) => {
 
         const position: PositionProps = {
             x: window.innerWidth / 2,
-            y: window.innerHeight / 2,
+            y: window.innerHeight / 2
         };
         const mouse: PositionProps = { x: position.x, y: position.y };
 
@@ -72,7 +72,7 @@ const CursorProvider = ({ children }: ProviderProps) => {
         };
 
         window.addEventListener("mousemove", handleMouseEvent, {
-            passive: true,
+            passive: true
         });
 
         gsap.ticker.add(() => {
