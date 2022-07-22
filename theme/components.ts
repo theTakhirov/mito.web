@@ -4,41 +4,41 @@ const components: ThemeComponents = {
     Container: {
         baseStyle: {
             maxWidth: "720px",
-            cursor: "none",
-        },
+            cursor: "none"
+        }
     },
 
     Heading: {
         baseStyle: (props) => {
             return {
                 lineHeight: "inherit",
-                color: props.colorMode === "dark" ? "white.400" : "dark.400",
+                color: props.colorMode === "dark" ? "white.400" : "dark.400"
             };
         },
         variants: {
             handwrite: {
-                fontFamily: "handWriting",
+                fontFamily: "handWriting"
             },
             mono: {
-                fontFamily: "mono",
-            },
-        },
+                fontFamily: "mono"
+            }
+        }
     },
 
     Text: {
         baseStyle: (props) => {
             return {
-                color: props.colorMode === "dark" ? "white.400" : "dark.400",
+                color: props.colorMode === "dark" ? "white.400" : "dark.400"
             };
         },
         variants: {
             handwrite: {
-                fontFamily: "handWriting",
+                fontFamily: "handWriting"
             },
             mono: {
-                fontFamily: "mono",
-            },
-        },
+                fontFamily: "mono"
+            }
+        }
     },
 
     Button: {
@@ -50,10 +50,10 @@ const components: ThemeComponents = {
                 color: props.colorMode === "dark" ? "white.400" : "dark.400",
 
                 _focus: {
-                    shadow: "none",
-                },
+                    shadow: "none"
+                }
             };
-        },
+        }
     },
 
     Link: {
@@ -61,27 +61,26 @@ const components: ThemeComponents = {
             cursor: "none",
 
             _focus: {
-                shadow: "none",
-            },
+                shadow: "none"
+            }
         },
         variants: {
             active: (props) => {
                 return {
                     color:
-                        props.colorMode === "dark" ? "yellow.400" : "blue.400",
+                        props.colorMode === "dark" ? "yellow.400" : "blue.400"
                 };
             },
             nonActive: (props) => {
                 return {
-                    color:
-                        props.colorMode === "dark" ? "white.400" : "dark.400",
+                    color: props.colorMode === "dark" ? "white.400" : "dark.400"
                 };
-            },
+            }
         },
         defaultProps: {
-            variant: "nonActive",
-        },
-    },
+            variant: "nonActive"
+        }
+    }
 };
 
 export default components;

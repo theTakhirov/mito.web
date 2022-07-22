@@ -4,17 +4,17 @@ import {
     KBarResults,
     KBarPortal,
     useMatches,
-    ActionId,
+    ActionId
 } from "kbar";
 import {
     ChakraPositioner,
     ChakraAnimator,
-    ChakraSearch,
+    ChakraSearch
 } from "@components/Command/styled";
 import {
     ResultItemProps,
     withChildren,
-    withItem,
+    withItem
 } from "@components/Command/types";
 import { keyframes, useColorModeValue } from "@chakra-ui/system";
 import { Box, Kbd, Text } from "@chakra-ui/layout";
@@ -44,12 +44,12 @@ const CommandPositioner = ({ children }: withChildren) => {
     const overlayFrom = useColorModeValue("#c6c8c600", "#25252500");
     const overlayTo = useColorModeValue("#c6c8c64d", "#2525254d");
     const keyframe = keyframes`
-        from {
-            background: ${overlayFrom};
-        }
-        to {
-            background: ${overlayTo};
-        }
+      from {
+        background: ${overlayFrom};
+      }
+      to {
+        background: ${overlayTo};
+      }
     `;
 
     return (
@@ -92,7 +92,7 @@ const CommandSearch = () => {
     return (
         <ChakraSearch
             defaultPlaceholder="Search..."
-            background="transparent"
+            background={"transparent"}
             width="full"
             paddingX={4}
             paddingY={3}

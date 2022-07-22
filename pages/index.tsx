@@ -10,8 +10,7 @@ const Home: NextPage = () => {
             </Heading>
 
             <Text variant="mono" fontSize={12} mt={1.5} mb={3.5}>
-                Junior Full Stack developer <br /> who enjoys learning new
-                things
+                Full Stack developer <br /> who enjoys learning new things
             </Text>
 
             <Text maxW={{ base: "100%", md: "75%" }} fontSize={16}>

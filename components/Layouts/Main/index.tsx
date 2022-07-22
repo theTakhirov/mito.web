@@ -24,7 +24,7 @@ const useFavicon = () => {
 
 const MainLayout = ({ title = false, meta = null, children }: LayoutProps) => {
     const favicon = useFavicon();
-    const displayTitle = title ? `${title} | Mitogen.uz` : "Mitogen.uz";
+    const displayTitle = title ? `${title} | Mally.moe` : "Mally.moe";
     const metaKeys = meta?.map((data, index) => (
         <meta key={index} name={data.name} content={data.content} />
     ));

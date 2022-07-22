@@ -2,12 +2,10 @@ import Router from "next/router";
 import { useRegisterActions } from "kbar";
 import { useColorMode, useColorModeValue } from "@chakra-ui/system";
 import GithubIcon from "~/icons/social/github";
-import InstagramIcon from "~/icons/social/instagram";
 import DribbbleIcon from "~/icons/social/dribbble";
 import TelegramIcon from "~/icons/social/telegram";
 import HomeIcon from "~/icons/home";
-
-export const initialCommands = [{}];
+import MailIcon from "~/icons/mail";
 
 export function useThemeActions() {
     const { setColorMode } = useColorMode();
@@ -17,7 +15,7 @@ export function useThemeActions() {
             id: "theme",
             name: "Change theme…",
             keywords: "interface color dark light",
-            shortcut: ["t"],
+            shortcut: ["t"]
         },
         {
             id: "darkTheme",
@@ -26,7 +24,7 @@ export function useThemeActions() {
             perform: () => {
                 setColorMode("dark");
             },
-            parent: "theme",
+            parent: "theme"
         },
         {
             id: "lightTheme",
@@ -35,8 +33,8 @@ export function useThemeActions() {
             perform: () => {
                 setColorMode("light");
             },
-            parent: "theme",
-        },
+            parent: "theme"
+        }
     ]);
 }
 
@@ -52,9 +50,9 @@ export const useNavigationMenu = () => {
             section: "Navigation",
             icon: <HomeIcon fill={color} width={24} height={24} />,
             perform: () => {
-                Router.push("/");
-            },
-        },
+                Router.push("/").then();
+            }
+        }
     ]);
 };
 
@@ -66,45 +64,45 @@ export const useContactMenu = () => {
             id: "social-github",
             name: "Github",
             keywords: "github",
-            shortcut: ["c", "g"],
-            section: "socials",
+            shortcut: ["s", "g"],
+            section: "socials || platforms",
             icon: <GithubIcon fill={color} />,
             perform: () => {
-                Router.push("https://github.com/thetakhirov");
-            },
-        },
-        {
-            id: "social-instagram",
-            name: "Instagram",
-            keywords: "instagram",
-            shortcut: ["c", "i"],
-            section: "socials",
-            icon: <InstagramIcon fill={color} />,
-            perform: () => {
-                Router.push("https://instagram.com/thetakhirov");
-            },
+                Router.push("https://github.com/thetakhirov").then();
+            }
         },
         {
             id: "social-dribbble",
             name: "Dribbble",
             keywords: "dribbble",
-            shortcut: ["c", "d"],
-            section: "socials",
+            shortcut: ["s", "d"],
+            section: "socials || platforms",
             icon: <DribbbleIcon fill={color} />,
             perform: () => {
-                Router.push("https://dribbble.com/thetakhirov");
-            },
+                Router.push("https://dribbble.com/thetakhirov").then();
+            }
         },
         {
-            id: "social-telegram",
+            id: "contact-mail",
+            name: "Mail",
+            keywords: "mail",
+            shortcut: ["c", "g"],
+            section: "contact",
+            icon: <MailIcon fill={color} />,
+            perform: () => {
+                Router.push("mailto:milly@mally.moe").then();
+            }
+        },
+        {
+            id: "contact-telegram",
             name: "Telegram",
             keywords: "telegram",
             shortcut: ["c", "t"],
-            section: "socials",
+            section: "contact",
             icon: <TelegramIcon fill={color} />,
             perform: () => {
-                Router.push("https://telegram.me/thetakhirov");
-            },
-        },
+                Router.push("https://telegram.me/thetakhirov").then();
+            }
+        }
     ]);
 };

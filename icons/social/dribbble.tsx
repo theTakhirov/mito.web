@@ -3,7 +3,7 @@ import React from "react";
 const DribbbleIcon = ({
     fill,
     width,
-    height,
+    height
 }: React.SVGProps<SVGSVGElement>) => {
     return (
         <svg
